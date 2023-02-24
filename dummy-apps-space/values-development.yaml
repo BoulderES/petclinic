@@ -26,3 +26,11 @@ namespaces:
           limits:
             cpu: 150m
             memory: 150Mi
+      - name: app3
+        resources:
+          requests:
+            cpu: 100m
+            memory: 125Mi
+          limits:
+            cpu: 150m
+            memory: 150Mi
