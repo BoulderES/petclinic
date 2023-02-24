@@ -74,7 +74,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ $appvalue.name }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ $namespacevalue.name }}
   labels:
     app: {{ $appvalue.name }}
 spec:
@@ -95,7 +95,7 @@ metadata:
   name: {{ $appvalue.name }}
 spec:
   rules:
-  - host: {{ $appvalue.name }}-{{ .Release.Namespace }}.{{ .Values.base_url }}
+  - host: {{ $appvalue.name }}-{{ $namespacevalue.name }}.{{ .Values.base_url }}
     http:
       paths:
       - backend:
