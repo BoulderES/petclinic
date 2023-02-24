@@ -1,3 +1,24 @@
 ---
 namespace: petclinic
 base_url: lab.dev
+
+
+namespaces:
+  - nane: location1
+    apps:
+      - name: app1
+        resources:
+          request:
+            cpu: 100m
+            memory: 125Mi
+          limits:
+            cpu: 150m
+            memory: 150Mi
+      - name: app2
+        resources:
+          request:
+            cpu: 100m
+            memory: 125Mi
+          limits:
+            cpu: 150m
+            memory: 150Mi

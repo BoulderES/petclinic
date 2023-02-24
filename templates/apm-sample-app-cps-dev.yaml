@@ -1,22 +1,25 @@
+{{- range $namespacekey, $namespacevalue := .Values.namespaces }}
+  {{- range $appkey, $appvalue := $namespacevalue.apps }}
+
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dummy-app
-  namespace: {{ .Release.Namespace }}
+  name: {{ $appvalue.name }}
+  namespace: {{ $namespacevalue.name }}
   labels:
-    app: dummy-app
-    service: dummy-app
+    app: {{ $appvalue.name }}
+    service: {{ $appvalue.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dummy-app
+      app: {{ $appvalue.name }}
   template:
     metadata:
       labels:
-        app: dummy-app
-        service: dummy-app
+        app: {{ $appvalue.name }}
+        service: {{ $appvalue.name }}
     spec:
       dnsPolicy: ClusterFirstWithHostNet
       ###################### Shared volume and init container ##########################
@@ -35,7 +38,10 @@ spec:
       - name: petclinic
         image: eyalkoren/pet-clinic:without-agent
       ######################### Volume path and agent config ###########################
-      ################# keytool -import -noprompt -trustcacerts -alias apm-server-apm-http.monitoring-tools-poc.svc.cluster.local -file servicecertificate -keystore "$JAVA_HOME/lib/security/cacerts"
+{{- with $appvalue.resources }}
+        resources:
+{{ toYaml . | indent 8 }}
+{{- end }}
         volumeMounts:
         - mountPath: /elastic/apm/agent
           name: elastic-apm-agent
@@ -43,7 +49,7 @@ spec:
         - name: ELASTIC_APM_SERVER_URL
           value: "http://apm-server.svc.cluster.local:8200"
         - name: ELASTIC_APM_SERVICE_NAME
-          value: dummy-app
+          value: {{ $appvalue.name }}
         - name: ELASTIC_APM_APPLICATION_PACKAGES
           value: org.springframework.samples.petclinic
         - name: ELASTIC_APM_ENVIRONMENT
@@ -67,10 +73,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: dummy-app
+  name: {{ $appvalue.name }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: dummy-app
+    app: {{ $appvalue.name }}
 spec:
   type: ClusterIP
   ports:
@@ -79,23 +85,26 @@ spec:
     targetPort: 8080
     name: http
   selector:
-    service: dummy-app
+    service: {{ $appvalue.name }}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
-  name: dummy-app
+  name: {{ $appvalue.name }}
 spec:
   rules:
-  - host: dummy-app-{{ .Release.Namespace }}.{{ .Values.base_url }}
+  - host: {{ $appvalue.name }}-{{ .Release.Namespace }}.{{ .Values.base_url }}
     http:
       paths:
       - backend:
           service:
-            name: dummy-app
+            name: {{ $appvalue.name }}
             port:
               number: 8080
         path: /
         pathType: ImplementationSpecific
+
+  {{- end }}
+{{- end }}
