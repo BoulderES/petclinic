@@ -95,7 +95,7 @@ metadata:
   name: {{ $appvalue.name }}
 spec:
   rules:
-  - host: "{{ $appvalue.name }}-{{ $namespacevalue.name }}.{{ $.Values.base_url }}"
+  - host: "{{ $appvalue.name }}{{ $namespacevalue.name }}.{{ $.Values.base_url }}"
     http:
       paths:
       - backend:
