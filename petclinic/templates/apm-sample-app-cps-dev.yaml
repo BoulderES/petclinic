@@ -40,7 +40,7 @@ spec:
       ######################### Volume path and agent config ###########################
 {{- with $appvalue.resources }}
         resources:
-{{ toYaml . | indent 8 }}
+{{ toYaml . | indent 10 }}
 {{- end }}
         volumeMounts:
         - mountPath: /elastic/apm/agent
