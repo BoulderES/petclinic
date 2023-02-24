@@ -28,7 +28,7 @@ spec:
         emptyDir: {}
       initContainers:
       - name: elastic-java-agent
-        image: docker.elastic.co/observability/apm-agent-java:1.36.0
+        image: {{ $.Values.apm.java_agent.image }}:{{ $.Values.apm.java_agent.tag }}
         volumeMounts:
         - mountPath: /elastic/apm/agent
           name: elastic-apm-agent
@@ -95,7 +95,7 @@ metadata:
   name: {{ $appvalue.name }}
 spec:
   rules:
-  - host: {{ $appvalue.name }}-{{ $namespacevalue.name }}.{{ .Values.base_url }}
+  - host: {{ $appvalue.name }}-{{ $namespacevalue.name }}.{{ $.Values.base_url }}
     http:
       paths:
       - backend:
