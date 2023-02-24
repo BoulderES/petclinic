@@ -1,10 +1,6 @@
 ---
 namespace: petclinic
 base_url: lab.dev
-apm:
-  java_agent:
-    image: docker.elastic.co/observability/apm-agent-java
-    tag: 1.36.0
 
 
 namespaces:
