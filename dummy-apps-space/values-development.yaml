@@ -8,7 +8,7 @@ apm:
 
 
 namespaces:
-  - nane: location1
+  - name: location1
     apps:
       - name: app1
         resources:
