@@ -20,7 +20,7 @@ namespaces:
             memory: 150Mi
       - name: app2
         resources:
-          request:
+          requests:
             cpu: 100m
             memory: 125Mi
           limits:
