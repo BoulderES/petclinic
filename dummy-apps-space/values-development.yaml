@@ -1,5 +1,5 @@
 ---
-namespace: petclinic
+namespace: dummy-apps-space
 base_url: lab.dev
 apm:
   java_agent:
