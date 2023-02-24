@@ -1,1 +1,5 @@
 ---
+apm:
+  java_agent:
+    image: docker.elastic.co/observability/apm-agent-java
+    tag: 1.36.0
